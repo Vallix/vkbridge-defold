@@ -226,7 +226,7 @@ end
 ---@param use_waterfall boolean|nil Whether to use the mechanism for displaying interstitial advertising in the absence of rewarded video.
 ---@param callback function callback with response data `function(self, err, data)`. If successful: `err = nil`.
 function M.check_rewarded(use_waterfall, callback)
-    M.send(events.CHECK_NATIVE_ADS, {ad_format = "interstitial", use_waterfall = use_waterfall}, callback)
+    M.send(events.CHECK_NATIVE_ADS, {ad_format = "reward", use_waterfall = use_waterfall}, callback)
 end
 
 ---Show rewarded ads
