@@ -17,7 +17,7 @@ end
 ---@param reset_time number the time after which the limit will be reset
 ---@return table
 function M.create_limit(name, reset_time)
-    local max = tonumber(sys.get_config("vk_bridge." .. name, "0")) or 0
+    local max = sys.get_config_number("vk_bridge." .. name, 0)
     local limit = {count = 0, max = max, active = max ~= nil and max > 0, name = name, time = socket.gettime(), reset_time = reset_time or max}
     return limit
 end
