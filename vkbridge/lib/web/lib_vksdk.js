@@ -32,7 +32,7 @@ var LibVkBridge = {
 
                 var cmsg_id = 0;
                 if (typeof message_id === "string") {
-                    cmsg_id = allocate(intArrayFromString(message_id), "i8", ALLOC_NORMAL);
+                    cmsg_id = stringToNewUTF8(message_id);
                 }
                 switch (typeof message) {
                     case "undefined":
@@ -42,13 +42,13 @@ var LibVkBridge = {
                         {{{ makeDynCall("viif", "VkBridgeLibrary._callback_number") }}} (cb_id, cmsg_id, message);
                         break;
                     case "string":
-                        var msg = allocate(intArrayFromString(message), "i8", ALLOC_NORMAL);
+                        var msg = stringToNewUTF8(message);
                         {{{ makeDynCall("viii", "VkBridgeLibrary._callback_string") }}} (cb_id, cmsg_id, msg);
                         Module._free(msg);
                         break;
                     case "object":
                         var msg = JSON.stringify(message);
-                        msg = allocate(intArrayFromString(msg), "i8", ALLOC_NORMAL);
+                        msg = stringToNewUTF8(msg);
                         {{{ makeDynCall("viii", "VkBridgeLibrary._callback_object") }}} (cb_id, cmsg_id, msg);
                         Module._free(msg);
                         break;
