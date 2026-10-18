@@ -44,12 +44,13 @@ var LibVkBridge = {
                     case "string":
                         var msg = stringToNewUTF8(message);
                         {{{ makeDynCall("viii", "VkBridgeLibrary._callback_string") }}} (cb_id, cmsg_id, msg);
-                        _free(msg);
+                        Module._free(msg);
                         break;
                     case "object":
-                        var msg = stringToNewUTF8(JSON.stringify(message));
+                        var msg = JSON.stringify(message);
+                        msg = stringToNewUTF8(msg);
                         {{{ makeDynCall("viii", "VkBridgeLibrary._callback_object") }}} (cb_id, cmsg_id, msg);
-                        _free(msg);
+                        Module._free(msg);
                         break;
                     case "boolean":
                         var msg = message ? 1 : 0;
@@ -59,7 +60,7 @@ var LibVkBridge = {
                         console.warn("Unsupported message format: " + typeof message);
                 }
                 if (cmsg_id) {
-                    _free(cmsg_id);
+                    Module._free(cmsg_id);
                 }
             } else {
                 // console.warn("You didn't set callback for VkBridgeLibrary");

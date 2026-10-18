@@ -31,9 +31,20 @@ local function serializeTable(val, name, skipnewlines, depth)
     return tmp
 end
 
+local function get_text_metrics_from_node(node)
+    local font_name = gui.get_font(node)
+    local font = gui.get_font_resource(font_name)
+    return resource.get_text_metrics(font, gui.get_text(node), {
+        width = gui.get_size(node).x,
+        line_break = gui.get_line_break(node),
+        leading = gui.get_leading(node),
+        tracking = gui.get_tracking(node)
+    })
+end
+
 local function update_log(self)
-    local metrix = gui.get_text_metrics_from_node(self.log_text)
-    self.log_size.y = metrix.height * 0.5 + 10
+    local metrics = get_text_metrics_from_node(self.log_text)
+    self.log_size.y = metrics.height * 0.5 + 10
     if self.log_size.y < 200 then
         self.log_size.y = 200
     end
@@ -211,7 +222,7 @@ function init(self)
     self.druid:new_button("btn_refresh_webview_banner", on_refresh_webview_banner)
     self.druid:new_button("btn_show_leaderboard", on_show_leaderboard)
 
-    print_log(self, "init", "version: " .. sys.get_config("project.version"))
+    print_log(self, "init", "version: " .. sys.get_config_string("project.version"))
     on_init_vk()
 end
 

@@ -14,3 +14,4 @@ builtins
 .cache-loader
 node_modules
 package-lock.json
+/.editor_settings
